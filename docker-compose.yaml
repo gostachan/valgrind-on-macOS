@@ -1,0 +1,7 @@
+services:
+  valgrind:
+    container_name: 42tokyo
+    build: .
+    volumes:
+      - ./srcs:/root/srcs
+    tty: true
