@@ -24,6 +24,10 @@ RUN apt update && \
 	gnupg && \
 	apt clean && rm -rf /var/lib/apt/lists/*
 
+# norminette
+RUN pipx install norminette
+
+# c_formatter_42
 RUN curl -LO "https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.6/clang+llvm-17.0.6-aarch64-linux-gnu.tar.xz" && \
 	tar -xf clang+llvm-17.0.6-aarch64-linux-gnu.tar.xz && \
 	mv clang+llvm-17.0.6-aarch64-linux-gnu /usr/local/clang-17 && \
@@ -34,7 +38,6 @@ COPY libs/c_formatter_42 /opt/libs/c_formatter_42
 RUN pipx install --editable /opt/libs/c_formatter_42
 RUN rm -f /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
 RUN ln -s /usr/local/bin/clang-format /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
-
 
 ENV PATH="/root/.local/bin:$PATH"
 
