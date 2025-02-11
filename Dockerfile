@@ -8,7 +8,12 @@ RUN apt update && \
 	valgrind \
 	make \
 	zsh \
-	tmux \
-	vim && \
+	vim \
+	python3 \
+	python3-pip \
+	python3-venv \
+	pipx && \
 	apt clean && rm -rf /var/lib/apt/lists/*
+RUN pipx install norminette
+ENV PATH="/root/.local/bin:$PATH"
 CMD ["zsh"]
