@@ -2,8 +2,6 @@ FROM ubuntu:latest
 
 WORKDIR /root/srcs
 
-COPY zshrc /root/.zshrc
-
 RUN apt update && \
 	apt upgrade -y && \
 	apt install -y \
@@ -24,6 +22,9 @@ RUN apt update && \
 	gnupg && \
 	apt clean && rm -rf /var/lib/apt/lists/*
 
+# zshrc
+COPY zshrc /root/.zshrc
+
 # norminette
 RUN pipx install norminette
 
@@ -38,6 +39,10 @@ COPY libs/c_formatter_42 /opt/libs/c_formatter_42
 RUN pipx install --editable /opt/libs/c_formatter_42
 RUN rm -f /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
 RUN ln -s /usr/local/bin/clang-format /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
+
+# header
+RUN mkdir -p ~/.vim/plugin
+COPY libs/stdheader/stdheader.vim /root/.vim/plugin/
 
 ENV PATH="/root/.local/bin:$PATH"
 
