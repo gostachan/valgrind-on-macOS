@@ -1,0 +1,13 @@
+__pycache__
+tags
+.tox/
+*egg-info
+dist/
+build/
+docs/build/
+.coverage
+/.venv
+/debug
+/.vimspector.json
+
+.vscode
