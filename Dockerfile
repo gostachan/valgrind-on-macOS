@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM --platform=linux/x86_64 ubuntu:latest
 
 WORKDIR /root/srcs
 
@@ -6,12 +6,10 @@ RUN apt update && \
 	apt upgrade -y && \
 	apt install -y \
 	build-essential \
-	valgrind \
 	make \
 	zsh \
 	vim \
 	python3 \
-	python3-pip \
 	python3-venv \
 	pipx \
 	curl \
@@ -22,23 +20,15 @@ RUN apt update && \
 	gnupg && \
 	apt clean && rm -rf /var/lib/apt/lists/*
 
+RUN apt update && apt install -y valgrind
+
 # zshrc
 COPY zshrc /root/.zshrc
-
+RUN curl -LsSf https://astral.sh/uv/install.sh | sh
+ENV PATH=/root/.local/bin:$PATH
 # norminette
-RUN pipx install norminette
-
-# c_formatter_42
-RUN curl -LO "https://github.com/llvm/llvm-project/releases/download/llvmorg-17.0.6/clang+llvm-17.0.6-aarch64-linux-gnu.tar.xz" && \
-	tar -xf clang+llvm-17.0.6-aarch64-linux-gnu.tar.xz && \
-	mv clang+llvm-17.0.6-aarch64-linux-gnu /usr/local/clang-17 && \
-	ln -s /usr/local/clang-17/bin/clang-format /usr/local/bin/clang-format
-RUN ls -l /usr/bin/clang-format* /usr/local/bin/clang-format* || echo "clang-format not found"
-RUN file /usr/local/bin/clang-format || echo "clang-format not found"
-COPY libs/c_formatter_42 /opt/libs/c_formatter_42
-RUN pipx install --editable /opt/libs/c_formatter_42
-RUN rm -f /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
-RUN ln -s /usr/local/bin/clang-format /opt/libs/c_formatter_42/c_formatter_42/data/clang-format-linux
+RUN uv tool install norminette && \
+    uv tool install c-formatter-42
 
 # header
 RUN mkdir -p ~/.vim/plugin
