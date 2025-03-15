@@ -7,11 +7,12 @@ RUN apt update && \
 	apt install -y \
 	build-essential \
 	make \
-	zsh \
-	vim \
+	curl \
+	git \
 	valgrind \
 	clang-format \
-	curl && \
+	vim \
+	zsh && \
 	apt clean && rm -rf /var/lib/apt/lists/*
 
 COPY zshrc /root/.zshrc
